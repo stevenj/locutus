@@ -1,4 +1,6 @@
 //! This contract just checks that macros compile etc.
+use std::collections::HashMap;
+
 // ANCHOR: contractifce
 use locutus_stdlib::prelude::*;
 
@@ -45,6 +47,24 @@ impl ContractInterface for Contract {
     ) -> Result<StateDelta<'static>, ContractError> {
         unimplemented!()
     }
+
+    fn get_metadata(
+        _parameters: Parameters<'static>,
+        _state: State<'static>,
+    ) -> Result<serde_json::Value, ContractError> {
+        unimplemented!()
+    }
+
+    fn lambda_fn(
+        _event: serde_json::Value,
+        _context: serde_json::Value,
+        _parameters: Parameters<'static>,
+        _state: State<'static>,
+    ) -> Result<(serde_json::Value, UpdateModification<'static>), ContractError> {
+        unimplemented!();
+    }
+
+
 }
 // ANCHOR_END: contractifce
 

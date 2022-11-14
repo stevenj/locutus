@@ -18,6 +18,7 @@ use blake2::{Blake2s256, Digest};
 use byteorder::LittleEndian;
 use serde::{Deserialize, Serialize};
 use serde_with::serde_as;
+use serde_json;
 
 const CONTRACT_KEY_SIZE: usize = 32;
 
@@ -443,6 +444,46 @@ pub trait ContractInterface {
         state: State<'static>,
         summary: StateSummary<'static>,
     ) -> Result<StateDelta<'static>, ContractError>;
+
+    /// Return metadata about the contract.
+    /// 
+    /// # Returns
+    /// 
+    /// Returns a JSON formatted string containing metadata about the smart 
+    /// contract.
+    /// 
+    /// # Errors
+    ///
+    /// Will return `ContractError` if something is wrong with the contract.
+    fn get_metadata(
+        _parameters: Parameters<'static>,
+        _state: State<'static>,
+    ) -> Result<serde_json::Value, ContractError>;
+
+    /// Execute Lambda Functions inside the contract.
+    /// 
+    /// # Passed
+    /// 
+    /// _event : The Rest API Event
+    /// _context : Internal Rest API Context for the call
+    /// _parameters : Immutable Contract parameters
+    /// _state : Mutable Contract State
+    /// 
+    /// # Returns
+    /// 
+    /// Returns a JSON formatted result containing the response to send.
+    /// 
+    /// # Errors
+    ///
+    /// Will return `ContractError` if something is wrong with the contract.
+    fn lambda_fn(
+        _event: serde_json::Value,
+        _context: serde_json::Value,
+        _parameters: Parameters<'static>,
+        _state: State<'static>,
+    ) -> Result<(serde_json::Value, UpdateModification<'static>), ContractError>;
+
+
 }
 // ANCHOR_END: contractifce
 
